@@ -8,6 +8,11 @@ public class MicrosoftMonarchs {
 
     // Global variables
     private static final String FILE_PATH = "MicrosoftStockData.txt";
+    private static final String COL_DATE = "%11s";
+    private static final String COL_COST_HEAD = "%8s";
+    private static final String COL_COST = "%8.2f";
+    private static final String COL_VOLUME_HEAD = "%14s";
+    private static final String COL_VOLUME = "%,14d";
 
     // -----------------------------------------------------------------------------------------------------------------
     // readTetFile method
@@ -35,14 +40,6 @@ public class MicrosoftMonarchs {
                 // Low value is captured in a string then converted into a double - This is not the best way to do this
                 temp = fileIn.next();
                 low[counter] = Double.parseDouble(temp);
-                fileIn.nextLine();
-
-                System.out.println(dates[counter]);
-                System.out.println(close[counter]);
-                System.out.println(volume[counter]);
-                System.out.println(open[counter]);
-                System.out.println(high[counter]);
-                System.out.println(low[counter]);
 
                 counter++;
             }
@@ -54,6 +51,26 @@ public class MicrosoftMonarchs {
         }
     }
     // End of readTextFile method
+    // -----------------------------------------------------------------------------------------------------------------
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // printData method
+    private static void printData(String[] dates, double[] close, int[] volume,
+                                  double[] open, double[] high, double[] low) {
+        // Printing Column headers first
+        System.out.printf(COL_DATE + COL_COST_HEAD + COL_VOLUME_HEAD + COL_COST_HEAD + COL_COST_HEAD + COL_COST_HEAD,
+                "Date", "Close", "Volume", "Open", "High", "Low");
+        System.out.println();
+
+        // Printing first 12 entries of data
+        for (int i = 0; i < 12; i++){
+            System.out.printf(COL_DATE + COL_COST + COL_VOLUME + COL_COST + COL_COST + COL_COST,
+                    dates[i], close[i], volume[i], open[i], high[i], low[i]);
+            System.out.println();
+        }
+
+    }
+    // End of printData method
     // -----------------------------------------------------------------------------------------------------------------
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -71,8 +88,10 @@ public class MicrosoftMonarchs {
         System.out.println("------------------------------");
 
         readTextFile(dates, close, volume, open, high, low);
+        printData(dates, close, volume, open, high, low);
 
     }
+
     // End of Main
     // -----------------------------------------------------------------------------------------------------------------
 

@@ -106,6 +106,13 @@ public class MicrosoftMonarchs {
                 bigDiff = j;
             }
 
+            if(j>0) {
+                if (dates[j].endsWith("2015") && dates[j - 1].matches("1/./2016")) {
+                    yearly[spot] = dates[j];
+                    System.out.println(yearly[spot]);
+                    spot++;
+                }
+            }
 
         }
         // End of for loop

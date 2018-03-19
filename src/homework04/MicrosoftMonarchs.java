@@ -74,6 +74,46 @@ public class MicrosoftMonarchs {
     // -----------------------------------------------------------------------------------------------------------------
 
     // -----------------------------------------------------------------------------------------------------------------
+    // analyzeData method
+    private static void analyzeData(String[] dates, double[] close, int[] volume,
+                                    double[] open, double[] high, double[] low) {
+        double highest = close[0];
+        double lowest = close[0];
+        double diff = 0;
+        int spot = 0;
+        int lowSpot;
+        int highSpot;
+        int bigDiff;
+        String[] yearly = new String[11];
+        String year;
+
+        for (int j = 0; j < close.length; j++){
+            // Finding lowest close
+            if (lowest > close[j]) {
+                lowest = close[j];
+                lowSpot = j;
+            }
+
+            // Finding highest close
+            if (highest < close[j]) {
+                highest = close[j];
+                highSpot = j;
+            }
+
+            // Finding the biggest difference in daily high and low
+            if ((high[j] - low[j]) > diff) {
+                diff = high[j] - low[j];
+                bigDiff = j;
+            }
+
+
+        }
+        // End of for loop
+    }
+    // End of analyzeData method
+    // -----------------------------------------------------------------------------------------------------------------
+
+    // -----------------------------------------------------------------------------------------------------------------
     // Main
     public static void main(String[] args){
 
@@ -89,9 +129,9 @@ public class MicrosoftMonarchs {
 
         readTextFile(dates, close, volume, open, high, low);
         printData(dates, close, volume, open, high, low);
+        analyzeData(dates, close, volume, open, high, low);
 
     }
-
     // End of Main
     // -----------------------------------------------------------------------------------------------------------------
 

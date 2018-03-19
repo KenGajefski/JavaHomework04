@@ -6,9 +6,12 @@ import java.util.Scanner;
 
 public class MicrosoftMonarchs {
 
+    // Global variables
     private static final String FILE_PATH = "MicrosoftStockData.txt";
 
-    public static void readTextFile(String[] dates, double[] close, int[] volume,
+    // -----------------------------------------------------------------------------------------------------------------
+    // readTetFile method
+    private static void readTextFile(String[] dates, double[] close, int[] volume,
                              double[] open, double[] high, double[] low){
         try
         {
@@ -17,7 +20,7 @@ public class MicrosoftMonarchs {
             int counter = 0;
 
             fileIn = new Scanner(new FileInputStream(FILE_PATH));
-            fileIn.useDelimiter("[,|\\n]");
+            fileIn.useDelimiter("[,|\\s]+");
 
             // Taking the first line out of the buffer for the reader
             headerLine = fileIn.nextLine();
@@ -41,33 +44,35 @@ public class MicrosoftMonarchs {
                 //System.out.println(low[counter]);
 
                 counter++;
-
             }
+            // End of while loop
         }
         catch (FileNotFoundException e)
         {
             System.out.println("Unable to find or open the file.");
         }
     }
-    // End of readTextFile
+    // End of readTextFile method
     // -----------------------------------------------------------------------------------------------------------------
 
+    // -----------------------------------------------------------------------------------------------------------------
     // Main
     public static void main(String[] args){
 
-        String[] dates = new String[10000];
-        double[] close = new double[10000];
-        int[] volume = new int[10000];
-        double[] open = new double[10000];
-        double[] high = new double[10000];
-        double[] low = new double[10000];
+        String[] dates = new String[2518];
+        double[] close = new double[2518];
+        int[] volume = new int[2518];
+        double[] open = new double[2518];
+        double[] high = new double[2518];
+        double[] low = new double[2518];
 
         System.out.println("Welcome to Microsoft Monarchs!");
         System.out.println("------------------------------");
 
         readTextFile(dates, close, volume, open, high, low);
 
-
     }
+    // End of Main
+    // -----------------------------------------------------------------------------------------------------------------
 
 }

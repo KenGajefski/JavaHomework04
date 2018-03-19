@@ -17,10 +17,10 @@ public class MicrosoftMonarchs {
         {
             Scanner fileIn = null;
             String headerLine;
+            String temp;
             int counter = 0;
 
-            fileIn = new Scanner(new FileInputStream(FILE_PATH));
-            fileIn.useDelimiter("[,|\\s]+");
+            fileIn = new Scanner(new FileInputStream(FILE_PATH)).useDelimiter("[,|\\n]+");
 
             // Taking the first line out of the buffer for the reader
             headerLine = fileIn.nextLine();
@@ -32,8 +32,9 @@ public class MicrosoftMonarchs {
                 volume[counter] = fileIn.nextInt();
                 open[counter] = fileIn.nextDouble();
                 high[counter] = fileIn.nextDouble();
-                // This is where it breaks
-                //low[counter] = fileIn.nextDouble();
+                // Low value is captured in a string then converted into a double - This is not the best way to do this
+                temp = fileIn.next();
+                low[counter] = Double.parseDouble(temp);
                 fileIn.nextLine();
 
                 System.out.println(dates[counter]);
@@ -41,7 +42,7 @@ public class MicrosoftMonarchs {
                 System.out.println(volume[counter]);
                 System.out.println(open[counter]);
                 System.out.println(high[counter]);
-                //System.out.println(low[counter]);
+                System.out.println(low[counter]);
 
                 counter++;
             }

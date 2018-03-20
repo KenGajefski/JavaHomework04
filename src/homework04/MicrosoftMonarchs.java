@@ -85,7 +85,8 @@ public class MicrosoftMonarchs {
         int highSpot;
         int bigDiff;
         String[] yearly = new String[11];
-        String year;
+        String year = "2017";
+        String prevYear = "2016";
 
         for (int j = 0; j < close.length; j++){
             // Finding lowest close
@@ -106,8 +107,10 @@ public class MicrosoftMonarchs {
                 bigDiff = j;
             }
 
-            if(j>0) {
-                if (dates[j].endsWith("2015") && dates[j - 1].matches("1/./2016")) {
+            if(j > 0) {
+                if (dates[j].substring(dates[j].lastIndexOf("/") + 1).matches(year) &&
+                        dates[j-1].substring(dates[j-1].lastIndexOf("/" + 1)).matches(prevYear)) {
+                    yearly[0] = dates[0];
                     yearly[spot] = dates[j];
                     System.out.println(yearly[spot]);
                     spot++;

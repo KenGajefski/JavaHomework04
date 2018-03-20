@@ -115,10 +115,8 @@ public class MicrosoftMonarchs {
             if(j > 0 && spot < 12) {
                 if (!(dates[j].substring(dates[j].lastIndexOf("/")).matches(year))) {
                     yearly[spot] = dates[j];
-                    System.out.println(yearly[spot]);
                     spot++;
                     year = dates[j].substring(dates[j].lastIndexOf("/"));
-                    System.out.println(year);
                 }
             }
 

@@ -80,13 +80,17 @@ public class MicrosoftMonarchs {
         double highest = close[0];
         double lowest = close[0];
         double diff = 0;
-        int spot = 0;
+        int spot = 1;
         int lowSpot;
         int highSpot;
         int bigDiff;
         String[] yearly = new String[11];
-        String year = "2017";
-        String prevYear = "2016";
+        // Sets first spot in the year end price array to the first data entry, March 5th 2018,
+        // as there is no value where the year changes afterward
+        yearly[0] = dates[0];
+        // The '/' character is required only for the first value of year as without it, the substring function
+        // will throw an error or count 2018 values twice
+        String year = "/2018";
 
         for (int j = 0; j < close.length; j++){
             // Finding lowest close
@@ -107,13 +111,14 @@ public class MicrosoftMonarchs {
                 bigDiff = j;
             }
 
-            if(j > 0) {
-                if (dates[j].substring(dates[j].lastIndexOf("/") + 1).matches(year) &&
-                        dates[j-1].substring(dates[j-1].lastIndexOf("/" + 1)).matches(prevYear)) {
-                    yearly[0] = dates[0];
+            // Only runs until all of the yearly closing prices are found
+            if(j > 0 && spot < 12) {
+                if (!(dates[j].substring(dates[j].lastIndexOf("/")).matches(year))) {
                     yearly[spot] = dates[j];
                     System.out.println(yearly[spot]);
                     spot++;
+                    year = dates[j].substring(dates[j].lastIndexOf("/"));
+                    System.out.println(year);
                 }
             }
 

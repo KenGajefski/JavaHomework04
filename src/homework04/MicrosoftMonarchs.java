@@ -13,6 +13,7 @@ public class MicrosoftMonarchs {
     private static final String COL_COST = "%8.2f";
     private static final String COL_VOLUME_HEAD = "%14s";
     private static final String COL_VOLUME = "%,14d";
+    private static final String COL_SPECIAL = "%18s";
 
     // -----------------------------------------------------------------------------------------------------------------
     // readTetFile method
@@ -58,15 +59,14 @@ public class MicrosoftMonarchs {
     private static void printData(String[] dates, double[] close, int[] volume,
                                   double[] open, double[] high, double[] low) {
         // Printing Column headers first
-        System.out.printf(COL_DATE + COL_COST_HEAD + COL_VOLUME_HEAD + COL_COST_HEAD + COL_COST_HEAD + COL_COST_HEAD,
+        System.out.printf(COL_DATE + COL_COST_HEAD + COL_VOLUME_HEAD + COL_COST_HEAD + COL_COST_HEAD + COL_COST_HEAD + "\n",
                 "Date", "Close", "Volume", "Open", "High", "Low");
         System.out.println();
 
         // Printing first 12 entries of data
         for (int i = 0; i < 12; i++){
-            System.out.printf(COL_DATE + COL_COST + COL_VOLUME + COL_COST + COL_COST + COL_COST,
+            System.out.printf(COL_DATE + COL_COST + COL_VOLUME + COL_COST + COL_COST + COL_COST + "\n",
                     dates[i], close[i], volume[i], open[i], high[i], low[i]);
-            System.out.println();
         }
 
     }
@@ -81,13 +81,15 @@ public class MicrosoftMonarchs {
         double lowest = close[0];
         double diff = 0;
         int spot = 1;
-        int lowSpot;
-        int highSpot;
-        int bigDiff;
+        int lowSpot = 0;
+        int highSpot = 0;
+        int bigDiff = 0;
         String[] yearly = new String[11];
+        double[] yearClose = new double[11];
         // Sets first spot in the year end price array to the first data entry, March 5th 2018,
         // as there is no value where the year changes afterward
         yearly[0] = dates[0];
+        yearClose[0] = close[0];
         // The '/' character is required only for the first value of year as without it, the substring function
         // will throw an error or count 2018 values twice
         String year = "/2018";
@@ -115,6 +117,7 @@ public class MicrosoftMonarchs {
             if(j > 0 && spot < 12) {
                 if (!(dates[j].substring(dates[j].lastIndexOf("/")).matches(year))) {
                     yearly[spot] = dates[j];
+                    yearClose[spot] = close[j];
                     spot++;
                     year = dates[j].substring(dates[j].lastIndexOf("/"));
                 }
@@ -122,6 +125,18 @@ public class MicrosoftMonarchs {
 
         }
         // End of for loop
+
+        // Printing the data from analyzeData
+        System.out.println();
+        System.out.println("Values from the last closing price of each year.");
+        System.out.printf(COL_DATE + COL_COST_HEAD + "\n", "Date", "Close");
+        for (int i = 0; i < 11; i++)
+            System.out.printf(COL_DATE + COL_COST + "\n", yearly[i], yearClose[i]);
+
+        System.out.println();
+        System.out.printf(COL_SPECIAL + COL_DATE + COL_COST + "\n", "Highest Close", dates[highSpot], highest);
+        System.out.printf(COL_SPECIAL + COL_DATE + COL_COST + "\n", "Lowest Close", dates[lowSpot], lowest);
+        System.out.printf(COL_SPECIAL + COL_DATE + COL_COST + "\n", "Biggest Difference", dates[bigDiff], diff);
     }
     // End of analyzeData method
     // -----------------------------------------------------------------------------------------------------------------

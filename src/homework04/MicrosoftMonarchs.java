@@ -3,6 +3,14 @@ package homework04;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.ui.ApplicationFrame;
+import org.jfree.ui.RefineryUtilities;
 
 public class MicrosoftMonarchs {
 
@@ -142,6 +150,44 @@ public class MicrosoftMonarchs {
     // -----------------------------------------------------------------------------------------------------------------
 
     // -----------------------------------------------------------------------------------------------------------------
+    // JFreeChart
+    public static JPanel createPanel()
+    {
+        DefaultCategoryDataset dataset = createDataset(String[] dates, double[] close);
+        JFreeChart chart = createChart(dataset);
+        JPanel panel = new ChartPanel(chart);
+        return panel;
+    }
+
+    private static DefaultCategoryDataset createDataset(String[] dates, double[] close)
+    {
+        // Create dataset object
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+        // Loop to set dataset pairs (label, value)
+        for (int i = 0; i < dates.length; i++)
+            dataset.setValue(dates[i], close[i]);
+        return dataset;
+
+    }
+
+    private static JFreeChart createChart(DefaultCategoryDataset dataset){
+        JFreeChart chart = ChartFactory.createLineChart(
+                "Microsoft Stock Data by Year",
+                "Year",
+                "Closing Price",
+                dataset,
+                null,
+                false,
+                false,
+                false
+        );
+        return chart;
+    }
+    // End of JFreeChart
+    // -----------------------------------------------------------------------------------------------------------------
+
+    // -----------------------------------------------------------------------------------------------------------------
     // Main
     public static void main(String[] args){
 
@@ -158,6 +204,8 @@ public class MicrosoftMonarchs {
         readTextFile(dates, close, volume, open, high, low);
         printData(dates, close, volume, open, high, low);
         analyzeData(dates, close, volume, open, high, low);
+
+
 
     }
     // End of Main

@@ -14,7 +14,7 @@ import org.jfree.ui.RefineryUtilities;
 
 public class MicrosoftMonarchs {
 
-    // Global variables
+    // Format Specifiers
     private static final String FILE_PATH = "MicrosoftStockData.txt";
     private static final String COL_DATE = "%11s";
     private static final String COL_COST_HEAD = "%8s";
@@ -84,7 +84,8 @@ public class MicrosoftMonarchs {
     // -----------------------------------------------------------------------------------------------------------------
     // analyzeData method
     private static void analyzeData(String[] dates, double[] close, int[] volume,
-                                    double[] open, double[] high, double[] low) {
+                                    double[] open, double[] high, double[] low,
+                                    String[] yearly, double[] yearClose) {
         double highest = close[0];
         double lowest = close[0];
         double diff = 0;
@@ -92,15 +93,6 @@ public class MicrosoftMonarchs {
         int lowSpot = 0;
         int highSpot = 0;
         int bigDiff = 0;
-        String[] yearly = new String[11];
-        double[] yearClose = new double[11];
-        // Sets first spot in the year end price array to the first data entry, March 5th 2018,
-        // as there is no value where the year changes afterward
-        yearly[0] = dates[0];
-        yearClose[0] = close[0];
-        // The '/' character is required only for the first value of year as without it, the substring function
-        // will throw an error or count 2018 values twice
-        String year = "/2018";
 
         for (int j = 0; j < close.length; j++){
             // Finding lowest close
@@ -123,11 +115,11 @@ public class MicrosoftMonarchs {
 
             // Only runs until all of the yearly closing prices are found
             if(j > 0 && spot < 12) {
-                if (!(dates[j].substring(dates[j].lastIndexOf("/")).matches(year))) {
+                if (!(dates[j].substring(dates[j].length() - 4).matches(year))) {
                     yearly[spot] = dates[j];
                     yearClose[spot] = close[j];
                     spot++;
-                    year = dates[j].substring(dates[j].lastIndexOf("/"));
+                    year = dates[j].substring(dates[j].length() - 4);
                 }
             }
 
@@ -153,13 +145,13 @@ public class MicrosoftMonarchs {
     // JFreeChart
     public static JPanel createPanel()
     {
-        DefaultCategoryDataset dataset = createDataset(String[] dates, double[] close);
+        DefaultCategoryDataset dataset = createDataset(double[] yearClose, String[] yearly);
         JFreeChart chart = createChart(dataset);
         JPanel panel = new ChartPanel(chart);
         return panel;
     }
 
-    private static DefaultCategoryDataset createDataset(String[] dates, double[] close)
+    private static DefaultCategoryDataset createDataset(double[] yearClose[], String[] yearly)
     {
         // Create dataset object
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
@@ -191,6 +183,7 @@ public class MicrosoftMonarchs {
     // Main
     public static void main(String[] args){
 
+        // General variables for data
         String[] dates = new String[2518];
         double[] close = new double[2518];
         int[] volume = new int[2518];
@@ -198,12 +191,21 @@ public class MicrosoftMonarchs {
         double[] high = new double[2518];
         double[] low = new double[2518];
 
+        // Variables for analyzeData functions
+        String[] yearly = new String[11];
+        double[] yearClose = new double[11];
+        // Sets first spot in the year end price array to the first data entry, March 5th 2018,
+        // as there is no value where the year changes afterward
+        yearly[0] = dates[0];
+        yearClose[0] = close[0];
+        String year = dates[0].substring(dates[0].length() - 4);
+
         System.out.println("Welcome to Microsoft Monarchs!");
         System.out.println("------------------------------");
 
         readTextFile(dates, close, volume, open, high, low);
         printData(dates, close, volume, open, high, low);
-        analyzeData(dates, close, volume, open, high, low);
+        analyzeData(dates, close, volume, open, high, low, yearly, yearClose);
 
 
 

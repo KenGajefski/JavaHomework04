@@ -69,7 +69,6 @@ public class MicrosoftMonarchs {
         // Printing Column headers first
         System.out.printf(COL_DATE + COL_COST_HEAD + COL_VOLUME_HEAD + COL_COST_HEAD + COL_COST_HEAD + COL_COST_HEAD + "\n",
                 "Date", "Close", "Volume", "Open", "High", "Low");
-        System.out.println();
 
         // Printing first 12 entries of data
         for (int i = 0; i < 12; i++){
@@ -85,7 +84,7 @@ public class MicrosoftMonarchs {
     // analyzeData method
     private static void analyzeData(String[] dates, double[] close, int[] volume,
                                     double[] open, double[] high, double[] low,
-                                    String[] yearly, double[] yearClose) {
+                                    String[] yearly, double[] yearClose, String year) {
         double highest = close[0];
         double lowest = close[0];
         double diff = 0;
@@ -93,6 +92,11 @@ public class MicrosoftMonarchs {
         int lowSpot = 0;
         int highSpot = 0;
         int bigDiff = 0;
+        // Sets first spot in the year end price array to the first data entry, March 5th 2018,
+        // as there is no value where the year changes afterward
+        yearly[0] = dates[0];
+        yearClose[0] = close[0];
+        year = dates[0].substring(dates[0].length() - 4);
 
         for (int j = 0; j < close.length; j++){
             // Finding lowest close
@@ -143,22 +147,22 @@ public class MicrosoftMonarchs {
 
     // -----------------------------------------------------------------------------------------------------------------
     // JFreeChart
-    public static JPanel createPanel()
+/*    public static JPanel createPanel()
     {
-        DefaultCategoryDataset dataset = createDataset(double[] yearClose, String[] yearly);
+        DefaultCategoryDataset dataset = createDataset(String[] yearly, double[] yearClose);
         JFreeChart chart = createChart(dataset);
         JPanel panel = new ChartPanel(chart);
         return panel;
     }
 
-    private static DefaultCategoryDataset createDataset(double[] yearClose[], String[] yearly)
+    private static DefaultCategoryDataset createDataset(String[] yearly, double[] yearClose[])
     {
         // Create dataset object
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
         // Loop to set dataset pairs (label, value)
-        for (int i = 0; i < dates.length; i++)
-            dataset.setValue(dates[i], close[i]);
+        for (int i = 0; i < yearly.length; i++)
+            dataset.setValue(yearClose[i], "Stock", yearly[i]);
         return dataset;
 
     }
@@ -175,7 +179,7 @@ public class MicrosoftMonarchs {
                 false
         );
         return chart;
-    }
+    }*/
     // End of JFreeChart
     // -----------------------------------------------------------------------------------------------------------------
 
@@ -194,18 +198,14 @@ public class MicrosoftMonarchs {
         // Variables for analyzeData functions
         String[] yearly = new String[11];
         double[] yearClose = new double[11];
-        // Sets first spot in the year end price array to the first data entry, March 5th 2018,
-        // as there is no value where the year changes afterward
-        yearly[0] = dates[0];
-        yearClose[0] = close[0];
-        String year = dates[0].substring(dates[0].length() - 4);
+        String year = "";
 
         System.out.println("Welcome to Microsoft Monarchs!");
         System.out.println("------------------------------");
 
         readTextFile(dates, close, volume, open, high, low);
         printData(dates, close, volume, open, high, low);
-        analyzeData(dates, close, volume, open, high, low, yearly, yearClose);
+        analyzeData(dates, close, volume, open, high, low, yearly, yearClose, year);
 
 
 
@@ -214,3 +214,5 @@ public class MicrosoftMonarchs {
     // -----------------------------------------------------------------------------------------------------------------
 
 }
+// End of Class
+// ---------------------------------------------------------------------------------------------------------------------

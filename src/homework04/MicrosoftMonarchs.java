@@ -23,6 +23,46 @@ public class MicrosoftMonarchs {
     private static final String COL_VOLUME = "%,14d";
     private static final String COL_SPECIAL = "%18s";
 
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // JFreeChart
+    public static JPanel createPanel()
+    {
+        DefaultCategoryDataset dataset = createDataset();
+        JFreeChart chart = createChart(dataset);
+        JPanel panel = new ChartPanel(chart);
+        return panel;
+    }
+
+    private static DefaultCategoryDataset createDataset()
+    {
+        // Create dataset object
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+        // Loop to set dataset pairs (label, value)
+        for (int i = 0; i < yearly.length; i++)
+            dataset.setValue(yearClose[i], "Stock", yearly[i] );
+        return dataset;
+
+    }
+
+    private static JFreeChart createChart(DefaultCategoryDataset dataset){
+        JFreeChart chart = ChartFactory.createLineChart(
+                "Microsoft Stock Data by Year",
+                "Year",
+                "Closing Price",
+                dataset,
+                null,
+                false,
+                false,
+                false
+        );
+        return chart;
+    }
+    // End of JFreeChart
+    // -----------------------------------------------------------------------------------------------------------------
+
+
     // -----------------------------------------------------------------------------------------------------------------
     // readTetFile method
     private static void readTextFile(String[] dates, double[] close, int[] volume,
@@ -145,46 +185,10 @@ public class MicrosoftMonarchs {
         System.out.printf(COL_SPECIAL + COL_DATE + COL_COST + "\n", "Highest Close", dates[highSpot], highest);
         System.out.printf(COL_SPECIAL + COL_DATE + COL_COST + "\n", "Lowest Close", dates[lowSpot], lowest);
         System.out.printf(COL_SPECIAL + COL_DATE + COL_COST + "\n", "Biggest Difference", dates[bigDiff], diff);
+
+
     }
     // End of analyzeData method
-    // -----------------------------------------------------------------------------------------------------------------
-
-    // -----------------------------------------------------------------------------------------------------------------
-    // JFreeChart
-    public static JPanel createPanel()
-    {
-        DefaultCategoryDataset dataset = createDataset(String[] dates, double[] close);
-        JFreeChart chart = createChart(dataset);
-        JPanel panel = new ChartPanel(chart);
-        return panel;
-    }
-
-    private static DefaultCategoryDataset createDataset(String[] dates, double[] close)
-    {
-        // Create dataset object
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-
-        // Loop to set dataset pairs (label, value)
-        for (int i = 0; i < dates.length; i++)
-            dataset.setValue(dates[i], close[i]);
-        return dataset;
-
-    }
-
-    private static JFreeChart createChart(DefaultCategoryDataset dataset){
-        JFreeChart chart = ChartFactory.createLineChart(
-                "Microsoft Stock Data by Year",
-                "Year",
-                "Closing Price",
-                dataset,
-                null,
-                false,
-                false,
-                false
-        );
-        return chart;
-    }
-    // End of JFreeChart
     // -----------------------------------------------------------------------------------------------------------------
 
     // -----------------------------------------------------------------------------------------------------------------
